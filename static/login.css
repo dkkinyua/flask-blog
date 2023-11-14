@@ -1,0 +1,34 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  background-color: #a28089;
+  width: 500px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  margin-bottom: 8px;
+}
+
+button {
+    text-decoration-color: black;
+}
+button:hover {
+    color: #edf756;
+    animation-direction: normal;
+    animation-duration: 1s;
+
+}
+  
