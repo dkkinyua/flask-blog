@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, Regexp, ValidationError
 from blog.models import User
@@ -43,3 +44,26 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=2, max=15)])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log In')
+
+
+class UpdateAccountForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=5, max=15)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Update.')
+    
+    def validate_user(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user.username.data != current_user.username:
+            if user:
+                raise ValidationError('Wowza, that username is taken, try another username')
+            else:
+                return f'{user.username.data} is available for you!'
+    
+    def validate_user(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user.email.data != current_user.username:
+            if user:
+                raise ValidationError('Wowza, that email is taken, try another email')
+
+            
+        
