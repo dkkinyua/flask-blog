@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed, FileField
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Length, Email, Regexp, ValidationError
 from blog.models import User
 from sqlalchemy import func
@@ -45,12 +46,13 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log In')
 
-
+#Update user information
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=5, max=15)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Update.')
-    
+    picture = FileField('Update your profile picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
+
     def validate_user(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user.username.data != current_user.username:
@@ -65,5 +67,9 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('Wowza, that email is taken, try another email')
 
-            
-        
+
+# To create a new post
+class PostForm(FlaskForm):
+    title = StringField('Post Title', validators=[DataRequired()])
+    content = TextAreaField("Content Here", validators=[DataRequired()])
+    submit = SubmitField('Post')

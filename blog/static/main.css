@@ -78,3 +78,13 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+    /* Custom CSS for border with rounded edges and gradient */
+.custom-border{
+  border: 2px #87CEEB;
+  border-radius: 10px;
+  background-image: linear-gradient(to right, #87CEEB, transparent);
+  padding: 20px; /* Optional: Add padding to give space between content and border */
+  margin-bottom: 20px; /* Optional: Add margin to create space between sections */
+}
+

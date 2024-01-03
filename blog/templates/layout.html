@@ -19,7 +19,7 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
           <div class="container">
-            <a class="navbar-brand mr-4" href="/">My Blog</a>
+            <a class="navbar-brand mr-4" href="/">an1me.co</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -31,6 +31,7 @@
               <!-- Navbar Right Side -->
               <div class="navbar-nav ms-auto">
                 {% if current_user.is_authenticated %}
+                  <a class="nav-item nav-link" href="{{ url_for('new_post') }}"><i class="fa-brands fa-usps"></i> New Post</a>
                   <a class="nav-item nav-link" href="{{ url_for('account') }}"><i class="fa-solid fa-user"></i> Account</a>
                   <a class="nav-item nav-link" href="{{ url_for('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
                 {% else %}
@@ -42,7 +43,8 @@
           </div>
         </nav>
     </header>
-
+    
+    <!-- Flashing messages 'success', 'danger' -->
     <main role="main" class="container">
         <div class="row">
           <div class="col-md-8">
@@ -59,6 +61,7 @@
             {% block content %}
             {% endblock %}
           </div>
+          <!-- Side Bar, add content? -->
           <div class="col-md-4">
             <div class="content-section">
               <h3>Our Sidebar</h3>
