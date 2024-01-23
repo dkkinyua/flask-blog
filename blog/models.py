@@ -1,6 +1,8 @@
 from datetime import datetime
-from blog import db, login_manager
+from itsdangerous import URLSafeTimedSerializer
+from blog import db, login_manager, app
 from flask_login import UserMixin
+
 
 # Loads and returns the current user_id, in session
 @login_manager.user_loader
@@ -15,9 +17,25 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(100), nullable=False)
     image_file = db.Column(db.String(20), default='default.jpg')
     posts = db.relationship('Post', backref='author', lazy=True)
+    
+#A method to reset your pass
+    def get_reset_token(self):
+        s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id}).encode('utf-8')
 
-    def __repr__(self):
-        return f"User('{self.username}, {self.email}, {self.image_file}')"
+#A method to verify the user's token
+    @staticmethod
+    def verify_user_token(token):
+        s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
+
+
+        def __repr__(self):
+            return f"User('{self.username}, {self.email}, {self.image_file}')"
 
 # Post model in db
 class Post(db.Model):

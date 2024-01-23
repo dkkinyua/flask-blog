@@ -79,7 +79,6 @@ a.article-title:hover {
   font-size: 2.5rem;
 }
 
-    /* Custom CSS for border with rounded edges and gradient */
 .custom-border{
   border: 2px #87CEEB;
   border-radius: 10px;

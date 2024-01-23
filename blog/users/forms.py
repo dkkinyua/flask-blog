@@ -1,11 +1,9 @@
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed, FileField
+from flask import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, EqualTo, Length, Email, Regexp, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField
+from wtforms.validators import DataRequired, Length, Regexp, ValidationError, FileAllowed, EqualTo, Email
 from blog.models import User
 from sqlalchemy import func
-
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=5, max=15)])
@@ -66,13 +64,6 @@ class UpdateAccountForm(FlaskForm):
         if user.email.data != current_user.username:
             if user:
                 raise ValidationError('Wowza, that email is taken, try another email')
-
-
-# To create a new post
-class PostForm(FlaskForm):
-    title = StringField('Post Title', validators=[DataRequired()])
-    content = TextAreaField("Content Here", validators=[DataRequired()])
-    submit = SubmitField('Post')
 
 # To request for a new password
 class RequestPasswordForm(FlaskForm):
