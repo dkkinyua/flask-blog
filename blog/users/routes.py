@@ -18,13 +18,13 @@ def login():
             login_user(user, remember=form.remember.data)
             flash(f'Welcome {form.username.data}!', 'success')
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home')) # Itinenary conditionals
+            return redirect(next_page) if next_page else redirect(url_for('main.home')) # Itinenary conditionals
         else:
             flash('Login Failed! Check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
     
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
 
 # The 'REGISTER' route, to the 'REGISTER' route
 @users.route('/register', methods=['GET', 'POST'])
@@ -36,16 +36,17 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Hello {form.username.data}, your account has been created. Please log in.', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
     return render_template('register.html', title='Register', form=form)
+
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     
 # The 'LOGOUT' route, to the 'LOGOUT' and other routes   
 @users.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('main.home'))
 
 @users.route('/account', methods=['POST', 'GET'])
 @login_required
@@ -60,7 +61,7 @@ def account():
         try:
             db.session.commit() # Commits the saved username and email to the db
             flash(f'Hi {current_user.username}, your account has been updated!', 'success') # Flashes the success message
-            return redirect(url_for('account'))
+            return redirect(url_for('main.account'))
         # It solves the user exists error
         except IntegrityError:
             db.session.rollback() 
@@ -89,29 +90,29 @@ def user_posts(username):
 @users.route('/reset_password', methods=['POST', 'GET'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     form = RequestPasswordForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
         send_reset_email(user)
         flash('An email with instructions on how to reset your password has been sent to your email', 'info')
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
     return render_template('reset_request.html', title='Reset password', form=form)
 
-# This is a route to actually reset your password
+# This is a route to  reset your password
 @users.route('/reset_password/<token>', methods=['POST', 'GET'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('main.home'))
     user = User.verify_user_token(token)
     if user is None:
         flash('This is an invalid or expired token, try again.', 'warning')
-        return redirect(url_for('reset_request'))
+        return redirect(url_for('users.reset_request'))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
         flash(f'Hello {form.username.data}, your password has been updated! Please log in.', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_token.html', title='Reset your password', form=form)

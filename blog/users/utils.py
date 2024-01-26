@@ -27,7 +27,7 @@ def send_reset_email(user):
     user = User()
     token = user.get_reset_token()
     msg = Message('Password Reset Request', sender='no-reply@demo.com', recipients=[user.email])
-    msg.body = f''' To reset your password, please follow the link: {url_for('reset_token', token=token, _external=True)}
+    msg.body = f''' To reset your password, please follow the link: {url_for('users.reset_token', token=token, _external=True)}
 If you did not request for a password change, please ignore this mail as no changes will be made to your profile.
 This message has been sent by admin.
 '''

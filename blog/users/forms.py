@@ -1,7 +1,8 @@
-from flask import FlaskForm
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileAllowed, FileField
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField
-from wtforms.validators import DataRequired, Length, Regexp, ValidationError, FileAllowed, EqualTo, Email
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Length, Regexp, ValidationError, EqualTo, Email
 from blog.models import User
 from sqlalchemy import func
 
