@@ -61,7 +61,7 @@ def account():
         try:
             db.session.commit() # Commits the saved username and email to the db
             flash(f'Hi {current_user.username}, your account has been updated!', 'success') # Flashes the success message
-            return redirect(url_for('main.account'))
+            return redirect(url_for('users.account'))
         # It solves the user exists error
         except IntegrityError:
             db.session.rollback() 
@@ -99,7 +99,7 @@ def reset_request():
         return redirect(url_for('main.login'))
     return render_template('reset_request.html', title='Reset password', form=form)
 
-# This is a route to  reset your password
+# This is a route to reset your password
 @users.route('/reset_password/<token>', methods=['POST', 'GET'])
 def reset_token(token):
     if current_user.is_authenticated:
