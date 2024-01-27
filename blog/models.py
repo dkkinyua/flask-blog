@@ -1,7 +1,8 @@
 from datetime import datetime
 from itsdangerous import URLSafeTimedSerializer
-from blog import db, login_manager, app
+from blog import db, login_manager
 from flask_login import UserMixin
+from blog import app
 
 
 # Loads and returns the current user_id, in session
