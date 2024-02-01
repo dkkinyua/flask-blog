@@ -36,7 +36,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Hello {form.username.data}, your account has been created. Please log in.', 'success')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
     if current_user.is_authenticated:
@@ -96,7 +96,7 @@ def reset_request():
         user = User.query.filter_by(email = form.email.data).first()
         send_reset_email(user)
         flash('An email with instructions on how to reset your password has been sent to your email', 'info')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='Reset password', form=form)
 
 # This is a route to reset your password
