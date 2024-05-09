@@ -13,7 +13,7 @@ Welcome to the Flask Blog, a lightweight and customizable blogging platform buil
 1. **Clone Repository**: Clone the Flask Blog repository to your local machine using the following command:
 
    ```bash
-   git clone https://github.com/your-username/flask-blog.git
+   git clone https://github.com/dkkinyua/flask-blog.git
    ```
 
 2. **Download Required Packages and Modules**: You can install the used modules and packages in this project by accessing the 'requirements.txt' in the directory:
